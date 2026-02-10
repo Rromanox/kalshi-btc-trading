@@ -1,0 +1,17 @@
+{
+  "confidence_threshold": 0.70,
+  "position_size_max": 5.0,
+  "check_interval_seconds": 30,
+  "edges_enabled": [
+    "late_window_lock",
+    "speed_advantage", 
+    "volatility_mispricing"
+  ],
+  "notification_enabled": true,
+  "data_sources": {
+    "primary": "binance",
+    "secondary": "coinbase", 
+    "fallback": "coingecko"
+  },
+  "last_updated": "2026-02-10T08:42:00"
+}

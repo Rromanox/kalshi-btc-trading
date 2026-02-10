@@ -1,0 +1,20 @@
+# Logs
+*.log
+*.log.*
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Sensitive data
+*.env
+secrets/
+.env.*
+
+# Temporary files
+tmp/
+temp/
+
+# API keys (safety)
+*token*
+*key*
