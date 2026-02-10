@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalshi BTC Trading Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .last-updated {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card h2 {
+            color: #4ecdc4;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+        
+        .metric {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .edge-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .edge-table th,
+        .edge-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .edge-table th {
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(76, 175, 80, 0.2);
+            border-radius: 15px;
+            border-left: 4px solid #4caf50;
+            margin-bottom: 20px;
+        }
+        
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            background: #4caf50;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .quick-stat {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .quick-stat .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 5px;
+        }
+        
+        .quick-stat .label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .nav-link {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .metric-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Kalshi BTC Trading Bot</h1>
+            <div class="subtitle">Autonomous 3-Edge Mathematical System</div>
+            <div class="last-updated" id="lastUpdated">Last updated: Loading...</div>
+        </div>
+        
+        <div class="status-indicator">
+            <div class="status-dot"></div>
+            <div>
+                <strong>System Status: OPERATIONAL</strong><br>
+                <small>Real-time trading with mathematical edge detection</small>
+            </div>
+        </div>
+        
+        <div class="quick-stats">
+            <div class="quick-stat">
+                <div class="number" id="totalTrades">--</div>
+                <div class="label">Total Trades</div>
+            </div>
+            <div class="quick-stat">
+                <div class="number" id="winRate">--%</div>
+                <div class="label">Win Rate</div>
+            </div>
+            <div class="quick-stat">
+                <div class="number" id="skipRate">--%</div>
+                <div class="label">Skip Rate</div>
+            </div>
+            <div class="quick-stat">
+                <div class="number" id="totalPL">$--</div>
+                <div class="label">Total P/L</div>
+            </div>
+        </div>
+        
+        <div class="dashboard-grid">
+            <div class="card">
+                <h2>📊 Performance Metrics</h2>
+                <div class="metric-grid">
+                    <div class="metric">
+                        <div class="metric-value" id="cyclesMonitored">--</div>
+                        <div class="metric-label">Cycles Monitored</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="bestTrade">$--</div>
+                        <div class="metric-label">Best Trade</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="worstTrade">$--</div>
+                        <div class="metric-label">Worst Trade</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="avgConfidence">--%</div>
+                        <div class="metric-label">Avg Confidence</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>🎯 Edge Performance</h2>
+                <table class="edge-table">
+                    <thead>
+                        <tr>
+                            <th>Edge Type</th>
+                            <th>Trades</th>
+                            <th>Win Rate</th>
+                            <th>P/L</th>
+                        </tr>
+                    </thead>
+                    <tbody id="edgeTableBody">
+                        <tr>
+                            <td>Late-Window Lock</td>
+                            <td id="lateWindowTrades">0</td>
+                            <td id="lateWindowWinRate">--%</td>
+                            <td id="lateWindowPL">$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Speed Advantage</td>
+                            <td id="speedTrades">0</td>
+                            <td id="speedWinRate">--%</td>
+                            <td id="speedPL">$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Volatility Mispricing</td>
+                            <td id="volTrades">0</td>
+                            <td id="volWinRate">--%</td>
+                            <td id="volPL">$0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>📈 Recent Activity</h2>
+            <div id="recentActivity">
+                <p>Loading recent trading activity...</p>
+            </div>
+        </div>
+        
+        <div class="nav-links">
+            <a href="daily/" class="nav-link">📝 Daily Reports</a>
+            <a href="trades/" class="nav-link">🎯 Individual Trades</a>
+            <a href="config/" class="nav-link">⚙️ Configuration</a>
+            <a href="https://github.com/Rromanox/kalshi-btc-trading" class="nav-link">📂 GitHub Repository</a>
+        </div>
+    </div>
+    
+    <script>
+        // Load performance data
+        async function loadPerformanceData() {
+            try {
+                // This would load from your JSON data files
+                // For now, show placeholder data
+                
+                document.getElementById('lastUpdated').textContent = 
+                    `Last updated: ${new Date().toLocaleString()}`;
+                
+                // You'll replace these with real data loading
+                document.getElementById('totalTrades').textContent = '28';
+                document.getElementById('cyclesMonitored').textContent = '127';
+                document.getElementById('skipRate').textContent = '78%';
+                document.getElementById('winRate').textContent = 'TBD';
+                document.getElementById('totalPL').textContent = '$0.00';
+                
+            } catch (error) {
+                console.error('Error loading performance data:', error);
+            }
+        }
+        
+        // Load recent activity
+        async function loadRecentActivity() {
+            const recentActivityDiv = document.getElementById('recentActivity');
+            
+            // This would load from your latest daily report
+            recentActivityDiv.innerHTML = `
+                <div style="padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-bottom: 15px;">
+                    <strong>Today (Feb 10, 2026)</strong><br>
+                    <small>127 cycles analyzed • 28 trades executed • 78% skip rate</small>
+                </div>
+                <div style="padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                    <strong>System Status</strong><br>
+                    <small>✅ BTC Edge Bot operational • ✅ Auto-notifications active • ✅ Nightly commits enabled</small>
+                </div>
+            `;
+        }
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPerformanceData();
+            loadRecentActivity();
+            
+            // Refresh data every 5 minutes
+            setInterval(loadPerformanceData, 5 * 60 * 1000);
+        });
+    </script>
+</body>
+</html>
