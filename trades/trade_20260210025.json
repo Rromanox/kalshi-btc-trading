@@ -1,0 +1,12 @@
+{
+  "trade_id": "20260210025",
+  "date": "2026-02-10",
+  "timestamp": "2026-02-10T07:38:46.368016",
+  "market_ticker": "KXSOL15M-26FEB100745-45",
+  "edge_type": "unknown",
+  "side": "yes",
+  "price_paid": 0.22,
+  "time_remaining": 6.395649483333333,
+  "claude_reasoning": "YES cheap at $0.2200 (threshold: $0.45)",
+  "market_result": "pending"
+}

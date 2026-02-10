@@ -54,4 +54,4 @@ kalshi-btc-trading/
 └── config/                     # Active trading parameters
 ```
 
-Last updated: 2026-02-10T08:42:00
+Last updated: 2026-02-10T08:44:41.986505

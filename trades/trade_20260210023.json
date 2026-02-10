@@ -1,0 +1,12 @@
+{
+  "trade_id": "20260210023",
+  "date": "2026-02-10",
+  "timestamp": "2026-02-10T07:38:36.261093",
+  "market_ticker": "KXBTC15M-26FEB100745-45",
+  "edge_type": "unknown",
+  "side": "yes",
+  "price_paid": 0.17,
+  "time_remaining": 6.395877033333333,
+  "claude_reasoning": "YES cheap at $0.1700 (threshold: $0.45)",
+  "market_result": "pending"
+}
