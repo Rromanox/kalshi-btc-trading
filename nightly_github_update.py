@@ -315,8 +315,18 @@ def main():
         print(f"✅ {len(trades)} trade files saved")
         
         # 4. Update README dashboard
-        print("📊 Updating dashboard...")
+        print("📊 Updating README dashboard...")
         update_readme_dashboard(REPO_PATH)
+        
+        # 4b. Update HTML dashboard for website
+        print("🌐 Updating website dashboard...")
+        try:
+            import sys
+            sys.path.append(REPO_PATH)
+            from update_dashboard_with_data import update_dashboard_data
+            update_dashboard_data(cycle_data, trades)
+        except Exception as e:
+            print(f"⚠️ Website dashboard update error: {e}")
         
         # 5. Generate Claude analysis
         print("🧠 Generating Claude analysis...")
