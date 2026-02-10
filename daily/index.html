@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Reports - Kalshi BTC Trading</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #4ecdc4;
+        }
+        
+        .back-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            text-decoration: none;
+            color: white;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .report-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .report-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .report-title {
+            font-size: 1.3rem;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+        
+        .report-meta {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+        
+        .report-preview {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .view-button {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #4ecdc4;
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .view-button:hover {
+            background: #45b7b8;
+            transform: scale(1.05);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            opacity: 0.8;
+        }
+        
+        .empty-state h2 {
+            color: #4ecdc4;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .report-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="../" class="back-link">← Back to Dashboard</a>
+            <h1>📝 Daily Trading Reports</h1>
+            <p>Complete analysis of daily trading performance</p>
+        </div>
+        
+        <div id="reports-container">
+            <div class="report-card">
+                <div class="report-title">February 10, 2026</div>
+                <div class="report-meta">📊 140 cycles analyzed • 🎯 28 trades executed • ⏸️ 80% skip rate</div>
+                <div class="report-preview">
+                    Today's trading session demonstrated excellent selectivity with the 3-edge mathematical system. 
+                    The bot correctly identified 28 trading opportunities while maintaining disciplined risk management...
+                </div>
+                <a href="2026-02-10.md" class="view-button">View Full Report</a>
+            </div>
+            
+            <!-- More reports will be added automatically by nightly updates -->
+        </div>
+        
+        <div class="empty-state" id="empty-state" style="display: none;">
+            <h2>📅 Reports Coming Soon</h2>
+            <p>Daily reports are automatically generated at 11:30 PM EST.<br>
+            Check back tomorrow for your complete trading analysis!</p>
+        </div>
+    </div>
+    
+    <script>
+        // Auto-load available reports
+        document.addEventListener('DOMContentLoaded', function() {
+            // This would dynamically load available report files
+            // For now, showing today's report manually
+            
+            const reportsContainer = document.getElementById('reports-container');
+            const emptyState = document.getElementById('empty-state');
+            
+            // Check if we have any reports
+            const hasReports = reportsContainer.children.length > 0;
+            
+            if (!hasReports) {
+                emptyState.style.display = 'block';
+                reportsContainer.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

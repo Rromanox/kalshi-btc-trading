@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Individual Trades - Kalshi BTC Trading</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #4ecdc4;
+        }
+        
+        .back-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            text-decoration: none;
+            color: white;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .trade-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .trade-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .trade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .trade-id {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+        
+        .trade-status {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background: rgba(255, 193, 7, 0.3);
+            color: #ffc107;
+            border: 1px solid #ffc107;
+        }
+        
+        .status-win {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4caf50;
+            border: 1px solid #4caf50;
+        }
+        
+        .status-loss {
+            background: rgba(244, 67, 54, 0.3);
+            color: #f44336;
+            border: 1px solid #f44336;
+        }
+        
+        .trade-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .detail-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        
+        .detail-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .view-json {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 10px;
+            background: rgba(78, 205, 196, 0.3);
+            color: #4ecdc4;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            border: 1px solid #4ecdc4;
+            transition: all 0.3s ease;
+        }
+        
+        .view-json:hover {
+            background: #4ecdc4;
+            color: white;
+        }
+        
+        .trades-summary {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            text-align: center;
+        }
+        
+        .summary-item {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .summary-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 5px;
+        }
+        
+        .summary-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            opacity: 0.8;
+        }
+        
+        .empty-state h2 {
+            color: #4ecdc4;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .trade-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .trade-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="../" class="back-link">← Back to Dashboard</a>
+            <h1>🎯 Individual Trades</h1>
+            <p>Detailed analysis of every trading decision</p>
+        </div>
+        
+        <div class="trades-summary">
+            <h3 style="margin-bottom: 20px; color: #4ecdc4;">📊 Trading Summary</h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-number" id="totalTrades">28</div>
+                    <div class="summary-label">Total Trades</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number" id="pendingTrades">28</div>
+                    <div class="summary-label">Pending</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number" id="winTrades">0</div>
+                    <div class="summary-label">Wins</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number" id="lossTrades">0</div>
+                    <div class="summary-label">Losses</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number" id="totalPL">$0.00</div>
+                    <div class="summary-label">Total P/L</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="trades-container">
+            <!-- Sample trade cards - these will be generated from actual trade files -->
+            <div class="trade-card">
+                <a href="trade_20260210001.json" class="view-json">JSON</a>
+                <div class="trade-header">
+                    <div class="trade-id">Trade #001</div>
+                    <div class="trade-status status-pending">⏳ PENDING</div>
+                </div>
+                <div class="trade-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Market</div>
+                        <div class="detail-value">BTC 15-min</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Side</div>
+                        <div class="detail-value">YES @ $0.00</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Edge Type</div>
+                        <div class="detail-value">Unknown</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Time</div>
+                        <div class="detail-value">Today</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- More trade cards for each JSON file -->
+            <div class="trade-card">
+                <a href="trade_20260210002.json" class="view-json">JSON</a>
+                <div class="trade-header">
+                    <div class="trade-id">Trade #002</div>
+                    <div class="trade-status status-pending">⏳ PENDING</div>
+                </div>
+                <div class="trade-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Market</div>
+                        <div class="detail-value">BTC 15-min</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Side</div>
+                        <div class="detail-value">YES @ $0.00</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Edge Type</div>
+                        <div class="detail-value">Unknown</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Time</div>
+                        <div class="detail-value">Today</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0; opacity: 0.7;">
+                <p>... and 26 more trades executed today</p>
+                <small>Click JSON links above to view complete trade details</small>
+            </div>
+        </div>
+        
+        <div class="empty-state" id="empty-state" style="display: none;">
+            <h2>📈 Trades Coming Soon</h2>
+            <p>Individual trade details are logged automatically.<br>
+            Your first trades will appear here once the bot executes them!</p>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // This would dynamically load and display trade files
+            // For now, showing sample trades based on known data
+            
+            console.log('Individual trades page loaded');
+            
+            // Future enhancement: Load actual trade JSON files and display them
+            // This would parse the JSON and create proper trade cards with real data
+        });
+    </script>
+</body>
+</html>

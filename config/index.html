@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration - Kalshi BTC Trading</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #4ecdc4;
+        }
+        
+        .back-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            text-decoration: none;
+            color: white;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .config-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .config-title {
+            font-size: 1.3rem;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .config-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .config-label {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 8px;
+        }
+        
+        .config-value {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #4ecdc4;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4caf50;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .warning-box {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .warning-box h4 {
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+        
+        .file-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #4ecdc4;
+            color: white;
+            text-decoration: none;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .file-link:hover {
+            background: #45b7b8;
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .config-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="../" class="back-link">← Back to Dashboard</a>
+            <h1>⚙️ Bot Configuration</h1>
+            <p>Current trading bot settings and parameters</p>
+        </div>
+        
+        <div class="config-card">
+            <div class="config-title">🎯 Trading Parameters</div>
+            <div class="config-grid">
+                <div class="config-item">
+                    <div class="config-label">Confidence Threshold</div>
+                    <div class="config-value">70%</div>
+                </div>
+                <div class="config-item">
+                    <div class="config-label">Max Position Size</div>
+                    <div class="config-value">$5.00</div>
+                </div>
+                <div class="config-item">
+                    <div class="config-label">Check Interval</div>
+                    <div class="config-value">30 seconds</div>
+                </div>
+                <div class="config-item">
+                    <div class="config-label">Notification Status</div>
+                    <div class="config-value">
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            Enabled
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="config-card">
+            <div class="config-title">🔍 Edge Detection System</div>
+            <div class="config-grid">
+                <div class="config-item">
+                    <div class="config-label">Late-Window Lock</div>
+                    <div class="config-value">
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            Active
+                        </div>
+                    </div>
+                </div>
+                <div class="config-item">
+                    <div class="config-label">Speed Advantage</div>
+                    <div class="config-value">
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            Active
+                        </div>
+                    </div>
+                </div>
+                <div class="config-item">
+                    <div class="config-label">Volatility Mispricing</div>
+                    <div class="config-value">
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            Active
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="config-card">
+            <div class="config-title">📊 Data Sources</div>
+            <div class="config-grid">
+                <div class="config-item">
+                    <div class="config-label">Primary Source</div>
+                    <div class="config-value">Binance API</div>
+                </div>
+                <div class="config-item">
+                    <div class="config-label">Secondary Source</div>
+                    <div class="config-value">Coinbase API</div>
+                </div>
+                <div class="config-item">
+                    <div class="config-label">Fallback Source</div>
+                    <div class="config-value">CoinGecko API</div>
+                </div>
+                <div class="config-item">
+                    <div class="config-label">Data Freshness</div>
+                    <div class="config-value">&lt; 30 seconds</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="config-card">
+            <div class="config-title">🕐 Automation Schedule</div>
+            <div class="config-grid">
+                <div class="config-item">
+                    <div class="config-label">Trading Bot</div>
+                    <div class="config-value">24/7 Active</div>
+                </div>
+                <div class="config-item">
+                    <div class="config-label">Nightly Reports</div>
+                    <div class="config-value">11:30 PM EST</div>
+                </div>
+                <div class="config-item">
+                    <div class="config-label">GitHub Commits</div>
+                    <div class="config-value">Daily</div>
+                </div>
+                <div class="config-item">
+                    <div class="config-label">WhatsApp Summaries</div>
+                    <div class="config-value">Daily</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="warning-box">
+            <h4>⚠️ Configuration Notes</h4>
+            <p>These settings are optimized for Kevin's 3-edge mathematical trading system. Changes to confidence thresholds or edge detection should be made carefully and tested thoroughly.</p>
+            <p><strong>Last Updated:</strong> 2026-02-10 08:42:00</p>
+            
+            <a href="current_thresholds.json" class="file-link">View Raw Configuration</a>
+        </div>
+    </div>
+</body>
+</html>
